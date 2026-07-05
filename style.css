@@ -6,7 +6,8 @@
 
 body {
   font-family: sans-serif;
-  color: #222;
+  background-color: #ecddd3;
+  color: #5e3317;
 }
 
 header {
@@ -14,7 +15,8 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 24px 40px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #ecddd3;
+  position: relative;
 }
 
 .site-name {
@@ -30,28 +32,34 @@ nav ul {
 
 nav a {
   text-decoration: none;
-  color: #222;
+  color: #5e3317;
   font-size: 0.9rem;
 }
 
-nav a.active {
-  color: #999;
+nav a:hover, nav a.active {
+  background-color: #ffffff;
+  color: #5e3317;
 }
 
-.has-dropdown {
-  position: relative;
+.has-dropdown:hover .dropdown {
+  display: block;
 }
 
 .dropdown {
   position: absolute;
   top: 100%;
   left: 0;
-  list-style: none;
-  background: #fff;
-  border: 1px solid #ddd;
-  min-width: 100px;
-  padding: 8px 0;
+  width: 100vw;
+  background: #111;
+  border-top: 1px solid #333;
+  border-bottom: 1px solid #333;
+  padding: 8px 40px;
+  gap: 24px;
   display: none;
+}
+
+.has-dropdown:hover .dropdown {
+  display: flex;
 }
 
 .dropdown.open {
@@ -59,11 +67,24 @@ nav a.active {
 }
 
 .dropdown li {
-  padding: 6px 16px;
+  padding: 0;
 }
 
 .dropdown a {
   font-size: 0.85rem;
+    color: #fff;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.dropdown a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #555;
 }
 
 main {
@@ -80,4 +101,15 @@ main {
   width: 100%;
   height: auto;
   display: block;
+}
+
+.site-name a {
+  color: #5e3317;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.has-dropdown {
+  position: static;
 }

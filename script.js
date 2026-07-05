@@ -6,7 +6,7 @@ const artworks = [
 ];
 
 // ---- Element references ----
-const navLinks = document.querySelectorAll("nav a[data-view]");
+const navLinks = document.querySelectorAll("nav a[data-view], .site-name a[data-view]");
 const content = document.getElementById("content");
 const dropdown = document.getElementById("year-dropdown");
 
@@ -18,27 +18,16 @@ const views = {
   "info": renderInfo,
 };
 
-// ---- Nav click handling ----
 navLinks.forEach((link) => {
   link.addEventListener("click", (event) => {
     event.preventDefault();
-    event.stopPropagation();
 
     navLinks.forEach((l) => l.classList.remove("active"));
     link.classList.add("active");
 
     const viewName = link.dataset.view;
     views[viewName]();
-
-    dropdown.classList.remove("open");
-    if (viewName === "Artworks") {
-      dropdown.classList.toggle("open");
-    }
   });
-});
-
-document.addEventListener("click", () => {
-  dropdown.classList.remove("open");
 });
 
 // ---- Dropdown build ----
@@ -99,3 +88,7 @@ function renderInfo() {
 // ---- Init ----
 buildYearDropdown();
 renderArtworks();
+
+document.querySelector(".dropdown-trigger").addEventListener("click", (event) => {
+  event.preventDefault();
+});
