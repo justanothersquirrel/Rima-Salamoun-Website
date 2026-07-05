@@ -9,6 +9,7 @@ const artworks = [
 const navLinks = document.querySelectorAll("nav a[data-view], .site-name a[data-view]");
 const content = document.getElementById("content");
 const dropdown = document.getElementById("year-dropdown");
+const trigger = document.querySelector(".dropdown-trigger");
 
 // ---- View router ----
 const views = {
@@ -18,16 +19,26 @@ const views = {
   "info": renderInfo,
 };
 
+// ---- Nav clicks ----
 navLinks.forEach((link) => {
   link.addEventListener("click", (event) => {
     event.preventDefault();
-
     navLinks.forEach((l) => l.classList.remove("active"));
     link.classList.add("active");
-
-    const viewName = link.dataset.view;
-    views[viewName]();
+    views[link.dataset.view]();
   });
+});
+
+// ---- Dropdown toggle ----
+trigger.addEventListener("click", (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+  navLinks.forEach((l) => l.classList.remove("active"));
+  dropdown.classList.toggle("open");
+});
+
+document.addEventListener("click", () => {
+  dropdown.classList.remove("open");
 });
 
 // ---- Dropdown build ----
@@ -37,14 +48,6 @@ function buildYearDropdown() {
   dropdown.innerHTML = years
     .map((year) => `<li><a href="#" data-year="${year}">${year}</a></li>`)
     .join("");
-
-  dropdown.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", (event) => {
-      event.preventDefault();
-      renderArtworksByYear(link.dataset.year);
-      dropdown.classList.remove("open");
-    });
-  });
 }
 
 // ---- Render functions ----
@@ -87,8 +90,16 @@ function renderInfo() {
 
 // ---- Init ----
 buildYearDropdown();
-renderArtworks();
 
-document.querySelector(".dropdown-trigger").addEventListener("click", (event) => {
-  event.preventDefault();
+const yearLinks = dropdown.querySelectorAll("a");
+
+yearLinks.forEach((link) => {
+  link.addEventListener("click", (event) => {
+    event.preventDefault();
+    yearLinks.forEach((l) => l.classList.remove("active"));
+    link.classList.add("active");
+    renderArtworksByYear(link.dataset.year);
+  });
 });
+
+renderArtworks();
