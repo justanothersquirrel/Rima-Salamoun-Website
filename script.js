@@ -1,18 +1,74 @@
 // ---- Data ----
 const artworks = [
-  { title: "title", year: "2006", medium: "Acrylic & gold leaf on canvas", dimensions: "80 × 80 cm", image: "2006/001.jpg" },
-  { title: "title", year: "2006", medium: "Acrylic & gold leaf on canvas", dimensions: "80 × 80 cm", image: "2006/002.jpg" },
-  { title: "title", year: "2006", medium: "Acrylic & gold leaf on canvas", dimensions: "80 × 80 cm", image: "2006/003.jpg" },
-  { title: "title", year: "2006", medium: "Acrylic & gold leaf on canvas", dimensions: "80 × 80 cm", image: "2006/004.jpg" },
-  { title: "title", year: "2006", medium: "Acrylic & gold leaf on canvas", dimensions: "80 × 80 cm", image: "2006/005.jpg" },
-  { title: "title", year: "2006", medium: "Acrylic & gold leaf on canvas", dimensions: "80 × 80 cm", image: "2006/006.jpg" },
-  { title: "title", year: "2006", medium: "Acrylic & gold leaf on canvas", dimensions: "80 × 80 cm", image: "2006/007.jpg" },
-  { title: "title", year: "2006", medium: "Acrylic & gold leaf on canvas", dimensions: "80 × 80 cm", image: "2006/008.jpg" },
-  { title: "title", year: "2006", medium: "Acrylic & gold leaf on canvas", dimensions: "120 × 100 cm", image: "2006/010.jpg" },
+  {
+    title: "title",
+    year: "2006",
+    medium: "Acrylic & gold leaf on canvas",
+    dimensions: "80 × 80 cm",
+    image: "2006/001.jpg",
+  },
+  {
+    title: "title",
+    year: "2006",
+    medium: "Acrylic & gold leaf on canvas",
+    dimensions: "80 × 80 cm",
+    image: "2006/002.jpg",
+  },
+  {
+    title: "title",
+    year: "2006",
+    medium: "Acrylic & gold leaf on canvas",
+    dimensions: "80 × 80 cm",
+    image: "2006/003.jpg",
+  },
+  {
+    title: "title",
+    year: "2006",
+    medium: "Acrylic & gold leaf on canvas",
+    dimensions: "80 × 80 cm",
+    image: "2006/004.jpg",
+  },
+  {
+    title: "title",
+    year: "2006",
+    medium: "Acrylic & gold leaf on canvas",
+    dimensions: "80 × 80 cm",
+    image: "2006/005.jpg",
+  },
+  {
+    title: "title",
+    year: "2006",
+    medium: "Acrylic & gold leaf on canvas",
+    dimensions: "80 × 80 cm",
+    image: "2006/006.jpg",
+  },
+  {
+    title: "title",
+    year: "2006",
+    medium: "Acrylic & gold leaf on canvas",
+    dimensions: "80 × 80 cm",
+    image: "2006/007.jpg",
+  },
+  {
+    title: "title",
+    year: "2006",
+    medium: "Acrylic & gold leaf on canvas",
+    dimensions: "80 × 80 cm",
+    image: "2006/008.jpg",
+  },
+  {
+    title: "title",
+    year: "2006",
+    medium: "Acrylic & gold leaf on canvas",
+    dimensions: "120 × 100 cm",
+    image: "2006/010.jpg",
+  },
 ];
 
 // ---- Element references ----
-const navLinks = document.querySelectorAll("nav a[data-view], .site-name a[data-view]");
+const navLinks = document.querySelectorAll(
+  "nav a[data-view], .site-name a[data-view]",
+);
 const content = document.getElementById("content");
 const dropdown = document.getElementById("year-dropdown");
 const trigger = document.querySelector(".dropdown-trigger");
@@ -89,32 +145,39 @@ function renderSelectedWorks() {
 function renderArtworks() {
   content.innerHTML = `
     <div class="grid">
-      ${artworks.map((art) => `
+      ${artworks
+        .map(
+          (art) => `
         <div class="grid-item">
           <div class="image-box">
             <img src="${art.image}" alt="${art.title}">
           </div>
           <p class="grid-caption">'${art.title}'<br>${art.medium}, ${art.dimensions}, ${art.year}.</p>
         </div>
-      `).join("")}
+      `,
+        )
+        .join("")}
     </div>
   `;
   attachImageClicks(artworks);
 }
 
-
 function renderArtworksByYear(year) {
   const filtered = artworks.filter((a) => a.year === year);
   content.innerHTML = `
     <div class="grid">
-      ${filtered.map((art) => `
+      ${filtered
+        .map(
+          (art) => `
         <div class="grid-item">
           <div class="image-box">
             <img src="${art.image}" alt="${art.title}">
           </div>
           <p class="grid-caption">'${art.title}'<br>${art.medium}, ${art.dimensions}, ${art.year}.</p>
         </div>
-      `).join("")}
+      `,
+        )
+        .join("")}
     </div>
   `;
   attachImageClicks(filtered);
