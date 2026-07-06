@@ -1,12 +1,32 @@
 // ---- Data ----
 const artworks = [
-  { title: "Untitled I", year: "2006", medium: "Acrylic & gold leaf on canvas", dimensions: "80 × 80 cm", image: "images/2006-01.jpg" },
-  { title: "Untitled II", year: "2006", medium: "Acrylic & gold leaf on canvas", dimensions: "80 × 80 cm", image: "images/2006-02.jpg" },
-  { title: "Untitled III", year: "2005", medium: "Oil on canvas", dimensions: "60 × 90 cm", image: "images/2005-01.jpg" },
+  {
+    title: "Untitled I",
+    year: "2006",
+    medium: "Acrylic & gold leaf on canvas",
+    dimensions: "80 × 80 cm",
+    image: "images/2006-01.jpg",
+  },
+  {
+    title: "Untitled II",
+    year: "2006",
+    medium: "Acrylic & gold leaf on canvas",
+    dimensions: "80 × 80 cm",
+    image: "images/2006-02.jpg",
+  },
+  {
+    title: "Untitled III",
+    year: "2005",
+    medium: "Oil on canvas",
+    dimensions: "60 × 90 cm",
+    image: "images/2005-01.jpg",
+  },
 ];
 
 // ---- Element references ----
-const navLinks = document.querySelectorAll("nav a[data-view], .site-name a[data-view]");
+const navLinks = document.querySelectorAll(
+  "nav a[data-view], .site-name a[data-view]",
+);
 const content = document.getElementById("content");
 const dropdown = document.getElementById("year-dropdown");
 const trigger = document.querySelector(".dropdown-trigger");
@@ -14,9 +34,9 @@ const trigger = document.querySelector(".dropdown-trigger");
 // ---- View router ----
 const views = {
   "Selected Works": renderSelectedWorks,
-  "Artworks": renderArtworks,
-  "publications": renderPublications,
-  "info": renderInfo,
+  Artworks: renderArtworks,
+  publications: renderPublications,
+  info: renderInfo,
 };
 
 // ---- Nav clicks ----
@@ -58,11 +78,15 @@ function renderSelectedWorks() {
 function renderArtworks() {
   content.innerHTML = `
     <div class="grid">
-      ${artworks.map((art) => `
+      ${artworks
+        .map(
+          (art) => `
         <div class="grid-item">
           <img src="${art.image}" alt="${art.title}">
         </div>
-      `).join("")}
+      `,
+        )
+        .join("")}
     </div>
   `;
 }
@@ -71,11 +95,15 @@ function renderArtworksByYear(year) {
   const filtered = artworks.filter((a) => a.year === year);
   content.innerHTML = `
     <div class="grid">
-      ${filtered.map((art) => `
+      ${filtered
+        .map(
+          (art) => `
         <div class="grid-item">
           <img src="${art.image}" alt="${art.title}">
         </div>
-      `).join("")}
+      `,
+        )
+        .join("")}
     </div>
   `;
 }
@@ -103,3 +131,13 @@ yearLinks.forEach((link) => {
 });
 
 renderArtworks();
+yearLinks.forEach((link) => {
+  link.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    yearLinks.forEach((l) => l.classList.remove("active"));
+    link.classList.add("active");
+    trigger.classList.add("active");
+    renderArtworksByYear(link.dataset.year);
+  });
+});
