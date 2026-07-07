@@ -63,6 +63,25 @@ const artworks = [
     dimensions: "120 × 100 cm",
     image: "2006/010.jpg",
   },
+  {
+    title: "title",
+    year: "Early Works",
+    medium: "Oil on canvas",
+    dimensions: "80 × 80 cm",
+    image: "Early/001.jpg",
+  },
+  {
+    title: "Sketch",
+    year: "Early Works",
+    medium: "Charcoal on paper",
+    image: "Early/002.jpg",
+  },
+  {
+    title: "Sketch",
+    year: "Early Works",
+    medium: "Charcoal on paper",
+    image: "Early/003.jpg",
+  },
 ];
 
 // ---- Element references ----
@@ -91,7 +110,9 @@ navLinks.forEach((link) => {
   link.addEventListener("click", (event) => {
     event.preventDefault();
     navLinks.forEach((l) => l.classList.remove("active"));
+    trigger.classList.remove("active");
     link.classList.add("active");
+    dropdown.classList.remove("open");
     views[link.dataset.view]();
   });
 });
@@ -101,12 +122,30 @@ trigger.addEventListener("click", (event) => {
   event.preventDefault();
   event.stopPropagation();
   navLinks.forEach((l) => l.classList.remove("active"));
+  trigger.classList.add("active");
   dropdown.classList.toggle("open");
+
+  const years = [...new Set(artworks.map((a) => a.year))]
+    .filter((year) => /^\d{4}$/.test(year))
+    .sort()
+    .reverse();
+  const mostRecentYear = years[0];
+
+  yearLinks.forEach((l) => l.classList.remove("active"));
+  const matchingLink = [...yearLinks].find(
+    (l) => l.dataset.year === mostRecentYear,
+  );
+  if (matchingLink) matchingLink.classList.add("active");
+
+  renderArtworksByYear(mostRecentYear);
 });
 
-document.addEventListener("click", () => {
-  dropdown.classList.remove("open");
-});
+// document.addEventListener("click", (event) => {
+//   if (lightbox.classList.contains("open")) return;
+//   if (!trigger.contains(event.target) && !dropdown.contains(event.target)) {
+//     dropdown.classList.remove("open");
+//   }
+// });
 
 // ---- Dropdown build ----
 function buildYearDropdown() {
@@ -134,6 +173,7 @@ function attachImageClicks(artworkList) {
 }
 
 lightbox.addEventListener("click", () => {
+  event.stopPropagation();
   lightbox.classList.remove("open");
 });
 

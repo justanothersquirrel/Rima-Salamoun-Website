@@ -94,39 +94,43 @@ main {
   padding: 40px;
 }
 
+/* ---- Masonry grid ---- */
 .grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-}
-
-.grid-item img {
-  width: 100%;
-  height: auto;
   display: block;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  column-count: 3;
+  column-gap: 40px;
   max-width: 900px;
   margin: 0 auto;
 }
 
 .grid-item {
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  max-width: 100%;
+  margin-bottom: 40px;
+  break-inside: avoid;
 }
 
+.image-box,
+.grid-item > div:first-child {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+
+.image-box img,
 .grid-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
   cursor: pointer;
 }
 
+.grid-caption {
+  font-size: 0.75rem;
+  line-height: 1.5;
+  margin-top: 8px;
+  color: #000000;
+}
+
+/* ---- Lightbox ---- */
 .lightbox {
   display: none;
   position: fixed;
@@ -141,32 +145,32 @@ main {
   flex-direction: column;
 }
 
-.lightbox-caption {
-  color: #fff;
-  text-align: center;
-  margin-top: 16px;
-  font-size: 0.9rem;
-}
-
-.lightbox-caption .caption-title {
-  font-style: italic;
-}
-
-.lightbox-caption .caption-details {
-  opacity: 0.7;
-  margin-top: 4px;
-}
-
 .lightbox.open {
   display: flex;
 }
 
 .lightbox img {
-  max-width: 90vw;
-  max-height: 90vh;
+  max-width: 70vw;
+  max-height: 70vh;
   cursor: none;
 }
 
+.lightbox-caption {
+  color: #000000;
+  text-align: center;
+  margin-top: 16px;
+  font-size: 0.9rem;
+}
+
+.gallery-caption-content {
+  color: #000000;
+  text-align: center;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-top: 16px;
+}
+
+/* ---- Magnifier ---- */
 .magnifier {
   position: absolute;
   width: 300px;
@@ -180,28 +184,4 @@ main {
 
 .magnifier.active {
   display: block;
-}
-
-.grid-item {
-  display: flex;
-  flex-direction: column;
-}
-
-.image-box {
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-}
-
-.image-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  cursor: pointer;
-}
-
-.grid-caption {
-  font-size: 0.75rem;
-  line-height: 1.5;
-  margin-top: 8px;
-  color: #5e3317;
 }
