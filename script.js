@@ -1,93 +1,29 @@
 // ---- Data ----
 const artworks = [
-  {
-    title: "title",
-    year: "2006",
-    medium: "Acrylic & gold leaf on canvas",
-    dimensions: "80 × 80 cm",
-    image: "2006/001.jpg",
-  },
-  {
-    title: "title",
-    year: "2006",
-    medium: "Acrylic & gold leaf on canvas",
-    dimensions: "80 × 80 cm",
-    image: "2006/002.jpg",
-  },
-  {
-    title: "title",
-    year: "2006",
-    medium: "Acrylic & gold leaf on canvas",
-    dimensions: "80 × 80 cm",
-    image: "2006/003.jpg",
-  },
-  {
-    title: "title",
-    year: "2006",
-    medium: "Acrylic & gold leaf on canvas",
-    dimensions: "80 × 80 cm",
-    image: "2006/004.jpg",
-  },
-  {
-    title: "title",
-    year: "2006",
-    medium: "Acrylic & gold leaf on canvas",
-    dimensions: "80 × 80 cm",
-    image: "2006/005.jpg",
-  },
-  {
-    title: "title",
-    year: "2006",
-    medium: "Acrylic & gold leaf on canvas",
-    dimensions: "80 × 80 cm",
-    image: "2006/006.jpg",
-  },
-  {
-    title: "title",
-    year: "2006",
-    medium: "Acrylic & gold leaf on canvas",
-    dimensions: "80 × 80 cm",
-    image: "2006/007.jpg",
-  },
-  {
-    title: "title",
-    year: "2006",
-    medium: "Acrylic & gold leaf on canvas",
-    dimensions: "80 × 80 cm",
-    image: "2006/008.jpg",
-  },
-  {
-    title: "title",
-    year: "2006",
-    medium: "Acrylic & gold leaf on canvas",
-    dimensions: "120 × 100 cm",
-    image: "2006/010.jpg",
-  },
-  {
-    title: "title",
-    year: "Early Works",
-    medium: "Oil on canvas",
-    dimensions: "80 × 80 cm",
-    image: "Early/001.jpg",
-  },
-  {
-    title: "Sketch",
-    year: "Early Works",
-    medium: "Charcoal on paper",
-    image: "Early/002.jpg",
-  },
-  {
-    title: "Sketch",
-    year: "Early Works",
-    medium: "Charcoal on paper",
-    image: "Early/003.jpg",
-  },
+  { title: "title", year: "2006", medium: "Acrylic & gold leaf on canvas", dimensions: "80 × 80 cm", image: "2006/001.jpg" },
+  { title: "title", year: "2006", medium: "Acrylic & gold leaf on canvas", dimensions: "80 × 80 cm", image: "2006/002.jpg" },
+  { title: "title", year: "2006", medium: "Acrylic & gold leaf on canvas", dimensions: "80 × 80 cm", image: "2006/003.jpg" },
+  { title: "title", year: "2006", medium: "Acrylic & gold leaf on canvas", dimensions: "80 × 80 cm", image: "2006/004.jpg" },
+  { title: "title", year: "2006", medium: "Acrylic & gold leaf on canvas", dimensions: "80 × 80 cm", image: "2006/005.jpg" },
+  { title: "title", year: "2006", medium: "Acrylic & gold leaf on canvas", dimensions: "80 × 80 cm", image: "2006/006.jpg" },
+  { title: "title", year: "2006", medium: "Acrylic & gold leaf on canvas", dimensions: "80 × 80 cm", image: "2006/007.jpg" },
+  { title: "title", year: "2006", medium: "Acrylic & gold leaf on canvas", dimensions: "80 × 80 cm", image: "2006/008.jpg" },
+  { title: "title", year: "2006", medium: "Acrylic & gold leaf on canvas", dimensions: "120 × 100 cm", image: "2006/010.jpg" },
+  { title: "title", year: "Early Works", medium: "Oil on canvas", dimensions: "80 × 80 cm", image: "Early/001.jpg" },
+  { title: "Sketch", year: "Early Works", medium: "Charcoal on paper", dimensions: "", image: "Early/002.jpg" },
+  { title: "Sketch", year: "Early Works", medium: "Charcoal on paper", dimensions: "", image: "Early/003.jpg" },
 ];
 
+const featuredImages = [
+  "2006/001.jpg",
+  "2006/004.jpg",
+  "2006/007.jpg",
+];
+
+let currentSlide = 0;
+
 // ---- Element references ----
-const navLinks = document.querySelectorAll(
-  "nav a[data-view], .site-name a[data-view]",
-);
+const navLinks = document.querySelectorAll("nav a[data-view], .site-name a[data-view]");
 const content = document.getElementById("content");
 const dropdown = document.getElementById("year-dropdown");
 const trigger = document.querySelector(".dropdown-trigger");
@@ -117,7 +53,7 @@ navLinks.forEach((link) => {
   });
 });
 
-// ---- Dropdown toggle ----
+// ---- Dropdown toggle (auto-selects most recent numeric year) ----
 trigger.addEventListener("click", (event) => {
   event.preventDefault();
   event.stopPropagation();
@@ -132,20 +68,11 @@ trigger.addEventListener("click", (event) => {
   const mostRecentYear = years[0];
 
   yearLinks.forEach((l) => l.classList.remove("active"));
-  const matchingLink = [...yearLinks].find(
-    (l) => l.dataset.year === mostRecentYear,
-  );
+  const matchingLink = [...yearLinks].find((l) => l.dataset.year === mostRecentYear);
   if (matchingLink) matchingLink.classList.add("active");
 
   renderArtworksByYear(mostRecentYear);
 });
-
-// document.addEventListener("click", (event) => {
-//   if (lightbox.classList.contains("open")) return;
-//   if (!trigger.contains(event.target) && !dropdown.contains(event.target)) {
-//     dropdown.classList.remove("open");
-//   }
-// });
 
 // ---- Dropdown build ----
 function buildYearDropdown() {
@@ -172,7 +99,7 @@ function attachImageClicks(artworkList) {
   });
 }
 
-lightbox.addEventListener("click", () => {
+lightbox.addEventListener("click", (event) => {
   event.stopPropagation();
   lightbox.classList.remove("open");
 });
@@ -182,21 +109,39 @@ function renderSelectedWorks() {
   content.innerHTML = "<p>Selected works go here.</p>";
 }
 
+// Homepage slideshow — shown for "Rima Salamoun" / "Artworks" nav item
 function renderArtworks() {
   content.innerHTML = `
+    <div class="slideshow">
+      <button class="slide-arrow left" id="prev-slide">&#8249;</button>
+      <img src="${featuredImages[currentSlide]}" class="slide-image" id="slide-image">
+      <button class="slide-arrow right" id="next-slide">&#8250;</button>
+    </div>
+  `;
+
+  document.getElementById("prev-slide").addEventListener("click", () => {
+    currentSlide = (currentSlide - 1 + featuredImages.length) % featuredImages.length;
+    document.getElementById("slide-image").src = featuredImages[currentSlide];
+  });
+
+  document.getElementById("next-slide").addEventListener("click", () => {
+    currentSlide = (currentSlide + 1) % featuredImages.length;
+    document.getElementById("slide-image").src = featuredImages[currentSlide];
+  });
+}
+
+// Full masonry grid of every artwork — used only by year-filtering below
+function renderAllArtworksGrid() {
+  content.innerHTML = `
     <div class="grid">
-      ${artworks
-        .map(
-          (art) => `
+      ${artworks.map((art) => `
         <div class="grid-item">
           <div class="image-box">
             <img src="${art.image}" alt="${art.title}">
           </div>
           <p class="grid-caption">'${art.title}'<br>${art.medium}, ${art.dimensions}, ${art.year}.</p>
         </div>
-      `,
-        )
-        .join("")}
+      `).join("")}
     </div>
   `;
   attachImageClicks(artworks);
@@ -206,18 +151,14 @@ function renderArtworksByYear(year) {
   const filtered = artworks.filter((a) => a.year === year);
   content.innerHTML = `
     <div class="grid">
-      ${filtered
-        .map(
-          (art) => `
+      ${filtered.map((art) => `
         <div class="grid-item">
           <div class="image-box">
             <img src="${art.image}" alt="${art.title}">
           </div>
           <p class="grid-caption">'${art.title}'<br>${art.medium}, ${art.dimensions}, ${art.year}.</p>
         </div>
-      `,
-        )
-        .join("")}
+      `).join("")}
     </div>
   `;
   attachImageClicks(filtered);
